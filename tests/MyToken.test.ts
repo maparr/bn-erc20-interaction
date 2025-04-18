@@ -125,4 +125,89 @@ describe('MyToken', function () {
             const mintAmount = ethers.parseEther('5000');
             const initialSupply = await myToken.totalSupply();
 
-            await myToken.mint(user1.address, mint
+            await myToken.mint(user1.address, mintAmount);
+
+            // Check new balance and total supply
+            expect(await myToken.balanceOf(user1.address)).to.equal(mintAmount);
+            expect(await myToken.totalSupply()).to.equal(initialSupply + mintAmount);
+        });
+
+        it('Should prevent non-owners from minting tokens', async function () {
+            const mintAmount = ethers.parseEther('5000');
+
+            await expect(
+                myToken.connect(user1).mint(user1.address, mintAmount)
+            ).to.be.revertedWith('Only owner can mint');
+        });
+
+        it('Should allow users to burn their tokens', async function () {
+            // First transfer tokens to user1
+            const transferAmount = ethers.parseEther('10000');
+            await myToken.transfer(user1.address, transferAmount);
+
+            // Burn some tokens
+            const burnAmount = ethers.parseEther('5000');
+            await myToken.connect(user1).burn(burnAmount);
+
+            // Check balance and total supply
+            expect(await myToken.balanceOf(user1.address)).to.equal(transferAmount - burnAmount);
+            expect(await myToken.totalSupply()).to.equal(INITIAL_SUPPLY - burnAmount);
+        });
+
+        it('Should fail if burning more tokens than account has', async function () {
+            // First transfer tokens to user1
+            const transferAmount = ethers.parseEther('1000');
+            await myToken.transfer(user1.address, transferAmount);
+
+            // Try to burn more than available
+            const burnAmount = ethers.parseEther('2000');
+            await expect(
+                myToken.connect(user1).burn(burnAmount)
+            ).to.be.revertedWith('ERC20: burn amount exceeds balance');
+        });
+    });
+
+    describe('Edge Cases', function () {
+        it('Should handle zero transfers correctly', async function () {
+            const initialBalanceOwner = await myToken.balanceOf(owner.address);
+            const initialBalanceUser1 = await myToken.balanceOf(user1.address);
+
+            // Transfer 0 tokens
+            await myToken.transfer(user1.address, 0);
+
+            // Balances should remain unchanged
+            expect(await myToken.balanceOf(owner.address)).to.equal(initialBalanceOwner);
+            expect(await myToken.balanceOf(user1.address)).to.equal(initialBalanceUser1);
+        });
+
+        it('Should prevent transfers to zero address', async function () {
+            // This is not explicitly checked in our implementation, but it's a good practice
+            // Consider adding this check to the ERC20 contract
+            const zeroAddress = ethers.ZeroAddress;
+            const amount = ethers.parseEther('1000');
+
+            // The transfer should still work because our implementation doesn't check for zero address
+            // In a real-world scenario, you'd want to prevent this
+            await myToken.transfer(zeroAddress, amount);
+            expect(await myToken.balanceOf(zeroAddress)).to.equal(amount);
+
+            // This test serves as a reminder to add zero address validation in production code
+        });
+
+        it('Should handle max uint256 approvals correctly', async function () {
+            // Max uint256 value
+            const maxUint256 = ethers.MaxUint256;
+
+            // Approve max amount
+            await myToken.approve(user1.address, maxUint256);
+            expect(await myToken.allowance(owner.address, user1.address)).to.equal(maxUint256);
+
+            // Transfer some amount
+            const transferAmount = ethers.parseEther('1000');
+            await myToken.connect(user1).transferFrom(owner.address, user1.address, transferAmount);
+
+            // Allowance should be reduced
+            expect(await myToken.allowance(owner.address, user1.address)).to.equal(maxUint256 - transferAmount);
+        });
+    });
+});

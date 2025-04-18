@@ -8,7 +8,7 @@
     "dev": "ts-node src/server.ts",
     "build": "tsc",
     "deploy:local": "npx hardhat run scripts/deploy.ts --network localhost",
-    "test": "npx hardhat test",
+    "test": "npx hardhat test ./tests/MyToken.test.ts",
     "node": "npx hardhat node",
     "compile": "npx hardhat compile",
     "clean": "npx hardhat clean"

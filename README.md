@@ -31,7 +31,7 @@ The project consists of two main parts:
 ```bash
 git clone git@github.com:maparr/bn-erc20-interaction.git
 git clone https://github.com/maparr/bn-erc20-interaction.git
-cd erc20-viem-api
+cd bn-erc20-interaction
 ```
 
 2. Install dependencies:
