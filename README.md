@@ -29,7 +29,8 @@ The project consists of two main parts:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/erc20-viem-api.git
+git clone git@github.com:maparr/bn-erc20-interaction.git
+git clone https://github.com/maparr/bn-erc20-interaction.git
 cd erc20-viem-api
 ```
 
@@ -177,20 +178,7 @@ curl -X POST http://localhost:3000/api/transfer-from \
 3. **Error Handling**: Implemented proper error handling to avoid exposing sensitive information
 4. **Smart Contract Security**: Added checks for overflow, underflow, and other common vulnerabilities
 
-## Future Improvements
-
-1. **Gas Fee Estimation**: Add functionality to estimate gas fees before transactions
-2. **Transaction Monitoring**: Implement a system to monitor transaction status and handle errors
-3. **Enhanced Authentication**: Add JWT or OAuth authentication for secure access to the API
-4. **Rate Limiting**: Implement rate limiting to prevent API abuse
-5. **Caching**: Add caching for frequently requested data like token information
-6. **Front-end Interface**: Create a web interface to interact with the API
-7. **Wallet Integration**: Integrate with wallet providers instead of handling private keys directly
-
 ## License
 
 MIT
 
-## Author
-
-Your Name
