@@ -1,0 +1,57 @@
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+artifacts/
+cache/
+
+# TypeScript compiler outputs
+*.js
+*.js.map
+*.tsbuildinfo
+
+# Hardhat-specific files
+artifacts/
+cache/
+typechain/
+typechain-types/
+coverage/
+coverage.json
+
+# Environment variables
+.env
+
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.code-workspace
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Miscellaneous
+*.pid
+*.seed
+*.pid.lock
+*.tgz
+*.zip
+*.rar
+*.7z
